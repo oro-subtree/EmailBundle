@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\EmailBundle\Migrations\DataFixtures\ORM;
+namespace Oro\Bundle\EmailBundle\Migrations\Data\ORM;
 
 class LoadEmailTemplates extends AbstractEmailFixture
 {
