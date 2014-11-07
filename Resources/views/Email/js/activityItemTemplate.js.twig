@@ -1,5 +1,6 @@
 {% import 'OroUIBundle::macros.html.twig' as ui %}
 {% set entityClass = 'Oro\\Bundle\\EmailBundle\\Entity\\Email' %}
+{% set entityName  = oro_entity_config_value(entityClass, 'label')|trans %}
 <script type="text/html" id="{{ id|e('html_attr')|raw }}">
     <div class="accordion-group">
         <div class="accordion-heading collapse<% if (!collapsed) { %> in<% } %>">
@@ -7,18 +8,18 @@
                 <a href="#accordion-item<%= id %>" class="no-hash accordion-toggle<% if (collapsed) { %> collapsed<% } %>"></a>
                 <span class="visual">
                     <i class="{{ oro_entity_config_value(entityClass, 'icon')|raw }}"></i>
-                    <span>{{ oro_entity_config_value(entityClass, 'label')|trans }}</span>
-                    <span>logged by "ADMIN" on <i class="date"><%= updatedAt %></i></span>
+                    <span>{{ entityName }}</span>
+                    <span>{{ 'oro.activitylist.widget.logged_by'|trans({'{{ user }}': 'UserName'})|raw }} <i class="date"><%= updatedAt %></i></span>
                 </span>
             </div>
             <div class="actions">
                 <button class="btn item-view-button"
-                        title="{{ 'View email log'|trans|e('html_attr')|raw }}">
-                    <i class="icon-eye-open hide-text">{{ 'View email log'|trans|e('html')|raw }}</i>
+                        title="{{ 'oro.activitylist.widget.view'|trans({'{{ entity }}': entityName})|trans|e('html_attr')|raw }}">
+                    <i class="icon-eye-open hide-text">{{ 'oro.activitylist.widget.view'|trans({'{{ entity }}': entityName})|trans|e('html')|raw }}</i>
                 </button>
                 <button class="btn item-remove-button<% if (!removable) { %> disabled<% } %>" <% if (!removable) { %> disabled="disabled"<% } %>
-                title="{{ 'Delete email log'|trans|e('html_attr')|raw }}">
-                <i class="icon-trash hide-text">{{ 'Delete email log'|trans|e('html')|raw }}</i>
+                title="{{ 'oro.activitylist.widget.delete'|trans|e('html_attr')|raw }}">
+                <i class="icon-trash hide-text">{{ 'oro.activitylist.widget.delete'|trans|e('html_attr')|raw }}</i>
                 </button>
             </div>
             <div class="message-item">
