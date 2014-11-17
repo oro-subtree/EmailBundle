@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yurio
- * Date: 17.11.14
- * Time: 14:03
- */
 
 namespace Oro\Bundle\EmailBundle\Migrations\Data\ORM;
 
@@ -34,8 +28,8 @@ class AddEmailActivityLists extends AddActivityListsData implements DependentFix
         $this->addActivityListsForActivityClass(
             $manager,
             'OroEmailBundle:Email',
-            'fromEmailAddress.owner.owner',
+            'fromEmailAddress.owner',
             'fromEmailAddress.owner.organization'
         );
     }
-} 
+}
