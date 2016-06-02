@@ -14,7 +14,9 @@ use Oro\Bundle\EmailBundle\Mailer\Processor;
 use Oro\Bundle\EmailBundle\Builder\EmailEntityBuilder;
 use Oro\Bundle\EmailBundle\Entity\Email;
 
-class LoadEmailData extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
+class LoadEmailWithoutActivityData extends AbstractFixture implements
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
     /**
      * @var array
@@ -35,11 +37,6 @@ class LoadEmailData extends AbstractFixture implements ContainerAwareInterface, 
      * @var ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var string
-     */
-    protected $attachmentFile;
 
     /**
      * {@inheritdoc}
@@ -90,7 +87,6 @@ class LoadEmailData extends AbstractFixture implements ContainerAwareInterface, 
                 $this->templates[] = array_combine($headers, array_values($data));
             }
         }
-        $this->attachmentFile = file_get_contents($dictionaryDir . DIRECTORY_SEPARATOR. "test.png");
     }
 
     /**
@@ -102,7 +98,6 @@ class LoadEmailData extends AbstractFixture implements ContainerAwareInterface, 
 
         foreach ($this->templates as $index => $template) {
             $owner = $this->getReference('simple_user');
-            $simpleUser2 = $this->getReference('simple_user2');
             $origin = $this->mailerProcessor->getEmailOrigin($owner->getEmail());
 
             $emailUser = $this->emailEntityBuilder->emailUser(
@@ -119,7 +114,6 @@ class LoadEmailData extends AbstractFixture implements ContainerAwareInterface, 
 
             $emailUser->addFolder($origin->getFolder(FolderType::SENT));
             $emailUser->getEmail()->addActivityTarget($owner);
-            $emailUser->getEmail()->addActivityTarget($simpleUser2);
             $emailUser->getEmail()->setHead(true);
             $emailUser->setOrganization($owner->getOrganization());
             $emailUser->setOwner($owner);
@@ -131,21 +125,11 @@ class LoadEmailData extends AbstractFixture implements ContainerAwareInterface, 
                 true
             );
 
-            $attachmentContent = $this->emailEntityBuilder->attachmentContent(
-                base64_encode($this->attachmentFile),
-                'base64'
-            );
-            $attachment = $this->emailEntityBuilder->attachment('test.png', 'image/png');
-            $attachment->setContent($attachmentContent);
-
-            $emailBody->addAttachment($attachment);
-
             $emailUser->getEmail()->setEmailBody($emailBody);
             $emailUser->getEmail()->setMessageId(sprintf('<id+&?= %s@%s>', $index, 'bap.migration.generated'));
             $this->setReference('email_' . ($index + 1), $emailUser->getEmail());
             $this->setReference('emailUser_' . ($index + 1), $emailUser);
             $this->setReference('emailBody_' . ($index + 1), $emailBody);
-            $this->setReference('emailAttachment_' . ($index + 1), $attachment);
         }
 
         $emailUser->setOwner($adminUser);
