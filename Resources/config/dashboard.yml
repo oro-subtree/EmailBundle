@@ -1,4 +1,4 @@
-dashboards:
+oro_dashboard_config:
     widgets:
         recent_emails:
             label:       oro.dashboard.recent_emails.title

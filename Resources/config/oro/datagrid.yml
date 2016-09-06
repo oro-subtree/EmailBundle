@@ -1,4 +1,4 @@
-datagrids:
+datagrid:
     email-auto-response-rules:
         acl_resource: oro_email_autoresponserule_view
         source:

@@ -1,4 +1,4 @@
-system_configuration:
+oro_system_configuration:
     groups:
         email_configuration:
             icon:  icon-envelope
