@@ -10,7 +10,7 @@ use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Oro\Component\MessageQueue\Util\JSON;
 
-class AddAssociationToEmailsMessageProcessor implements MessageProcessorInterface, TopicSubscriberInterface
+class AddEmailAssociationsMessageProcessor implements MessageProcessorInterface, TopicSubscriberInterface
 {
     /**
      * @var MessageProducerInterface
@@ -41,7 +41,7 @@ class AddAssociationToEmailsMessageProcessor implements MessageProcessorInterfac
 
         if (! isset($data['emailIds'], $data['targetClass'], $data['targetId']) || ! is_array($data['emailIds'])) {
             $this->logger->critical(sprintf(
-                '[AddAssociationToEmailsMessageProcessor] Got invalid message: "%s"',
+                '[AddEmailAssociationsMessageProcessor] Got invalid message: "%s"',
                 $message->getBody()
             ));
 
@@ -57,7 +57,7 @@ class AddAssociationToEmailsMessageProcessor implements MessageProcessorInterfac
         }
 
         $this->logger->info(sprintf(
-            '[AddAssociationToEmailsMessageProcessor] Sent "%s" messages',
+            '[AddEmailAssociationsMessageProcessor] Sent "%s" messages',
             count($data['emailIds'])
         ));
 
